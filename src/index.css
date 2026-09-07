@@ -1,0 +1,221 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-sans antialiased text-slate-800 dark:text-slate-200;
+    /* Ground colour behind the 3D canvas. The canvas paints the same values,
+       so there is no flash between first paint and WebGL coming up. */
+    background-color: #f6fbfe;
+  }
+
+  html.dark body {
+    background-color: #070b13;
+  }
+
+  /* The 3D layer damps scroll itself; the browser's own smooth-scroll fights
+     that damping and makes the camera travel feel doubly delayed. */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Montserrat', 'Inter', system-ui, sans-serif;
+  }
+
+  p {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  button,
+  input[type='button'],
+  input[type='submit'],
+  input[type='reset'] {
+    font-family: 'Poppins', 'Inter', system-ui, sans-serif;
+    font-weight: 600;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-slate-100 dark:bg-zangle-dark;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-300 dark:bg-slate-700 rounded-full hover:bg-slate-400 dark:hover:bg-slate-600 transition-colors;
+  }
+}
+
+@layer components {
+  /* Glass Card */
+  .glass-card {
+    @apply bg-white/95 dark:bg-zangle-card/95 border border-slate-200/80 dark:border-slate-800/80 shadow-xl dark:shadow-card-dark;
+  }
+
+  .glass-card-hover {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-cyan-500/40 dark:hover:border-cyan-400/30;
+  }
+
+  /* Gradient Text */
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600 dark:from-cyan-400 dark:via-blue-400 dark:to-indigo-400;
+  }
+
+  .text-gradient-cyan {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-cyan-500 to-blue-500;
+  }
+
+  /* Glow Border effect */
+  .glow-border {
+    position: relative;
+  }
+  .glow-border::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(to bottom right, rgba(6, 182, 212, 0.5), rgba(99, 102, 241, 0.2), transparent 60%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  /* Star button path animation */
+  @keyframes star-btn {
+    0% {
+      offset-distance: 0%;
+    }
+    100% {
+      offset-distance: 100%;
+    }
+  }
+
+  .animate-star-btn {
+    animation: star-btn calc(var(--duration, 4) * 1s) linear infinite;
+  }
+
+  /* Shimmer Text Flow Keyframes */
+  @keyframes text-shimmer {
+    0% {
+      background-position: 0% center;
+    }
+    100% {
+      background-position: -200% center;
+    }
+  }
+
+  .animate-text-shimmer {
+    animation: text-shimmer 7s linear infinite;
+  }
+
+  /* Ambient Pastel Background Drift Keyframes */
+  @keyframes drift-1 {
+    0% {
+      transform: translate(0, 0) scale(1);
+    }
+    50% {
+      transform: translate(6vw, 5vh) scale(1.06);
+    }
+    100% {
+      transform: translate(-3vw, 8vh) scale(0.96);
+    }
+  }
+
+  @keyframes drift-2 {
+    0% {
+      transform: translate(0, 0) scale(1);
+    }
+    50% {
+      transform: translate(-7vw, 6vh) scale(1.08);
+    }
+    100% {
+      transform: translate(4vw, -3vh) scale(0.94);
+    }
+  }
+
+  @keyframes drift-3 {
+    0% {
+      transform: translate(0, 0) scale(1);
+    }
+    50% {
+      transform: translate(-6vw, -7vh) scale(1.04);
+    }
+    100% {
+      transform: translate(5vw, -4vh) scale(1.08);
+    }
+  }
+
+  /* Ambient Atmospheric Background Drift Keyframes (Ultra-Slow, Morphing Light) */
+  @keyframes ambient-drift-1 {
+    0% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    50% {
+      transform: translate3d(4vw, 3vh, 0) scale(1.05);
+    }
+    100% {
+      transform: translate3d(-2vw, 5vh, 0) scale(0.97);
+    }
+  }
+
+  @keyframes ambient-drift-2 {
+    0% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    50% {
+      transform: translate3d(-5vw, 4vh, 0) scale(1.06);
+    }
+    100% {
+      transform: translate3d(3vw, -2vh, 0) scale(0.95);
+    }
+  }
+
+  @keyframes ambient-drift-3 {
+    0% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    50% {
+      transform: translate3d(-4vw, -5vh, 0) scale(1.04);
+    }
+    100% {
+      transform: translate3d(3vw, -3vh, 0) scale(1.05);
+    }
+  }
+
+  @keyframes ambient-drift-4 {
+    0% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    50% {
+      transform: translate3d(5vw, -4vh, 0) scale(0.96);
+    }
+    100% {
+      transform: translate3d(-3vw, -3vh, 0) scale(1.04);
+    }
+  }
+
+  /* Linear/Apple Crisp Glass Card */
+  .b2b-card {
+    @apply bg-white/95 dark:bg-slate-900/95 border border-slate-200/70 dark:border-slate-800/70 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.4)];
+  }
+
+  .b2b-card-hover {
+    @apply transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgb(0,0,0,0.07)] dark:hover:shadow-[0_12px_40px_rgb(0,0,0,0.5)] hover:border-cyan-500/30 dark:hover:border-cyan-400/20;
+  }
+}

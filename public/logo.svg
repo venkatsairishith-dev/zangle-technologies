@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 108" fill="none">
+  <defs>
+    <linearGradient id="logo-lime-teal" x1="14" y1="12" x2="36" y2="70" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#A3E635"/>
+      <stop offset="35%" stop-color="#4ADE80"/>
+      <stop offset="70%" stop-color="#2DD4BF"/>
+      <stop offset="100%" stop-color="#0D9488"/>
+    </linearGradient>
+    <linearGradient id="logo-dark-teal" x1="26" y1="10" x2="105" y2="54" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="30%" stop-color="#0F766E"/>
+      <stop offset="70%" stop-color="#0E7490"/>
+      <stop offset="100%" stop-color="#0891B2"/>
+    </linearGradient>
+    <linearGradient id="logo-cyan-bright" x1="16" y1="92" x2="108" y2="48" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#22D3EE"/>
+      <stop offset="35%" stop-color="#06B6D4"/>
+      <stop offset="70%" stop-color="#00E5FF"/>
+      <stop offset="100%" stop-color="#38BDF8"/>
+    </linearGradient>
+    <linearGradient id="logo-specular" x1="28" y1="78" x2="72" y2="56" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#E0F2FE" stop-opacity="0.2"/>
+    </linearGradient>
+    <filter id="logo-shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="#06B6D4" floodOpacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- ICON MARK -->
+  <g filter="url(#logo-shadow)">
+    <!-- 1. Left Vertical Wing Facet -->
+    <path d="M 24 12 C 20 12 16 16 16 22 L 16 66 C 16 70 19 72 23 69 L 34 58 L 34 22 C 34 16 30 12 24 12 Z" fill="url(#logo-lime-teal)"/>
+    <!-- 2. Top-Right Angled Wedge -->
+    <path d="M 24 12 L 96 48 C 102 51 103 57 98 61 L 84 70 L 32 30 L 24 12 Z" fill="url(#logo-dark-teal)"/>
+    <!-- 3. Main Bottom Front Chevron Arm -->
+    <path d="M 22 86 C 16 86 12 80 16 74 L 88 44 C 95 40 104 46 102 54 L 98 60 C 96 66 89 69 83 72 L 30 96 C 26 98 22 93 22 86 Z" fill="url(#logo-cyan-bright)"/>
+    <!-- 4. Inner Specular Line -->
+    <rect x="32" y="72" width="34" height="5" rx="2.5" transform="rotate(-23 32 72)" fill="url(#logo-specular)"/>
+  </g>
+
+  <!-- TYPOGRAPHY: ZANGLE -->
+  <text x="130" y="58" font-family="'Inter', 'Orbitron', 'Rajdhani', sans-serif" font-weight="800" font-size="48" letter-spacing="4" fill="#00D8D8">
+    ZANGLE
+  </text>
+
+  <!-- TYPOGRAPHY: TECHNOLOGIES -->
+  <text x="132" y="86" font-family="'Inter', 'Rajdhani', sans-serif" font-weight="600" font-size="14" letter-spacing="10" fill="#00B4B4">
+    TECHNOLOGIES
+  </text>
+</svg>

@@ -1,0 +1,539 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zangle Mobile View Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg-ground: #090e17;
+    --bg-card: rgba(15, 23, 42, 0.75);
+    --bg-card-border: rgba(51, 65, 85, 0.6);
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --accent-cyan: #06b6d4;
+    --accent-emerald: #10b981;
+    --accent-blue: #3b82f6;
+    --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --bg-ground: #f8fafc;
+      --bg-card: rgba(255, 255, 255, 0.9);
+      --bg-card-border: rgba(226, 232, 240, 0.8);
+      --text-primary: #0f172a;
+      --text-secondary: #64748b;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg-ground: #090e17;
+    --bg-card: rgba(15, 23, 42, 0.75);
+    --bg-card-border: rgba(51, 65, 85, 0.6);
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background-color: var(--bg-ground);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+
+  /* Header Bar */
+  .top-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 28px;
+    border-bottom: 1px solid var(--bg-card-border);
+    background: var(--bg-card);
+    backdrop-filter: blur(16px);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+
+  .brand-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .brand-logo {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-emerald));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 16px;
+    color: #ffffff;
+    box-shadow: 0 0 16px rgba(6, 182, 212, 0.4);
+  }
+
+  .brand-title {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .brand-badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 9999px;
+    background: rgba(6, 182, 212, 0.15);
+    color: var(--accent-cyan);
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Controls Toolbar */
+  .toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .btn-control {
+    background: rgba(51, 65, 85, 0.2);
+    border: 1px solid var(--bg-card-border);
+    color: var(--text-primary);
+    padding: 7px 14px;
+    border-radius: 8px;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .btn-control:hover {
+    background: rgba(6, 182, 212, 0.15);
+    border-color: var(--accent-cyan);
+    color: var(--accent-cyan);
+  }
+
+  .btn-control.active {
+    background: var(--accent-cyan);
+    color: #041019;
+    border-color: var(--accent-cyan);
+    font-weight: 700;
+    box-shadow: 0 0 12px rgba(6, 182, 212, 0.4);
+  }
+
+  /* Studio Workspace */
+  .workspace {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 24px;
+    padding: 24px 28px;
+    max-width: 1600px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  @media (max-width: 1100px) {
+    .workspace {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Simulator Stage */
+  .stage-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 16px;
+    padding: 20px;
+    border-radius: 20px;
+    background: radial-gradient(circle at center, rgba(6, 182, 212, 0.04) 0%, transparent 70%);
+    border: 1px dashed var(--bg-card-border);
+    min-height: 880px;
+  }
+
+  /* Route Switcher */
+  .route-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px;
+    background: var(--bg-card);
+    border: 1px solid var(--bg-card-border);
+    border-radius: 12px;
+    backdrop-filter: blur(12px);
+    overflow-x: auto;
+    max-width: 100%;
+  }
+
+  .route-tab {
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .route-tab:hover {
+    color: var(--text-primary);
+  }
+
+  .route-tab.active {
+    background: rgba(6, 182, 212, 0.15);
+    color: var(--accent-cyan);
+    font-weight: 700;
+  }
+
+  /* Realistic Mobile Frame */
+  .phone-mockup {
+    position: relative;
+    border-radius: 52px;
+    background: #0f172a;
+    box-shadow: 0 0 0 10px #1e293b, 0 0 0 13px #334155, 0 25px 60px -10px rgba(0, 0, 0, 0.65), 0 0 30px rgba(6, 182, 212, 0.2);
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Dynamic Island */
+  .dynamic-island {
+    position: absolute;
+    top: 13px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 116px;
+    height: 30px;
+    background: #000000;
+    border-radius: 20px;
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  }
+
+  .camera-lens {
+    width: 11px;
+    height: 11px;
+    background: #111827;
+    border-radius: 50%;
+    border: 1.5px solid #1f2937;
+    position: relative;
+  }
+  .camera-lens::after {
+    content: '';
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    top: 2px;
+    left: 2px;
+    border-radius: 50%;
+    background: #0284c7;
+    opacity: 0.6;
+  }
+
+  .sensor-dot {
+    width: 7px;
+    height: 7px;
+    background: #111827;
+    border-radius: 50%;
+  }
+
+  /* Phone Screen & Iframe */
+  .phone-screen {
+    width: 100%;
+    height: 100%;
+    border-radius: 44px;
+    overflow: hidden;
+    position: relative;
+    background: #ffffff;
+  }
+
+  .phone-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: #ffffff;
+  }
+
+  /* Side Inspector Card */
+  .inspector-card {
+    background: var(--bg-card);
+    border: 1px solid var(--bg-card-border);
+    border-radius: 20px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    backdrop-filter: blur(16px);
+  }
+
+  .card-title {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-primary);
+  }
+
+  .feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px;
+    background: rgba(51, 65, 85, 0.2);
+    border: 1px solid var(--bg-card-border);
+    border-radius: 12px;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  .feature-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--accent-emerald);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+
+  .quick-connect-box {
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(16, 185, 129, 0.08));
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    border-radius: 14px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .url-code {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    padding: 8px 12px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 8px;
+    color: var(--accent-cyan);
+    border: 1px solid rgba(6, 182, 212, 0.25);
+    overflow-x: auto;
+  }
+</style>
+
+<div class="top-nav">
+  <div class="brand-group">
+    <div class="brand-logo">Z</div>
+    <div>
+      <div class="brand-title">Zangle Technologies</div>
+      <div style="font-size: 11px; color: var(--text-secondary);">Interactive Mobile Preview Studio</div>
+    </div>
+    <span class="brand-badge">Port 3000 LIVE</span>
+  </div>
+
+  <div class="toolbar">
+    <button class="btn-control active" id="btn-iphone" onclick="setDevice('iphone')">
+      📱 iPhone 15 Pro (393 × 852)
+    </button>
+    <button class="btn-control" id="btn-pixel" onclick="setDevice('pixel')">
+      📱 Pixel 8 (412 × 892)
+    </button>
+    <button class="btn-control" id="btn-ipad" onclick="setDevice('ipad')">
+      📟 iPad Mini (768 × 1024)
+    </button>
+    <button class="btn-control" onclick="toggleOrientation()">
+      🔄 Rotate
+    </button>
+    <button class="btn-control" onclick="reloadFrame()">
+      ⚡ Reload
+    </button>
+  </div>
+</div>
+
+<div class="workspace">
+  <!-- Simulator Stage -->
+  <div class="stage-container">
+    <!-- Active Route Bar -->
+    <div class="route-bar">
+      <button class="route-tab active" onclick="setRoute('/')">🏠 Home</button>
+      <button class="route-tab" onclick="setRoute('/hire-talent')">💼 Hire Talent</button>
+      <button class="route-tab" onclick="setRoute('/services')">⚡ Services</button>
+      <button class="route-tab" onclick="setRoute('/talent-bench')">👥 Talent Bench</button>
+      <button class="route-tab" onclick="setRoute('/jobs')">🔍 Find Jobs</button>
+      <button class="route-tab" onclick="setRoute('/about')">🏢 About</button>
+      <button class="route-tab" onclick="setRoute('/contact')">📞 Contact</button>
+    </div>
+
+    <!-- Phone Simulator Frame -->
+    <div class="phone-mockup" id="phone-frame" style="width: 393px; height: 852px;">
+      <!-- Dynamic Island for iPhone -->
+      <div class="dynamic-island" id="dynamic-island">
+        <div class="sensor-dot"></div>
+        <div class="camera-lens"></div>
+      </div>
+
+      <!-- Iframe Screen -->
+      <div class="phone-screen">
+        <iframe
+          id="preview-iframe"
+          class="phone-iframe"
+          src="http://localhost:3000/"
+          title="Zangle Mobile Preview"
+        ></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- Side Specifications & Testing Guide -->
+  <div class="inspector-card">
+    <div class="card-title">
+      <span>✨ Mobile View Verification</span>
+    </div>
+
+    <div class="feature-list">
+      <div class="feature-item">
+        <div class="feature-icon">✓</div>
+        <div>
+          <strong style="color: var(--text-primary);">Touch Cursor Guard</strong><br>
+          <span style="color: var(--text-secondary); font-size: 12px;">3D Ring Cursor is seamlessly disabled on mobile/touch viewports (`pointer: coarse`), falling back to native touch.</span>
+        </div>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-icon">✓</div>
+        <div>
+          <strong style="color: var(--text-primary);">Adaptive 3D WebGL Background</strong><br>
+          <span style="color: var(--text-secondary); font-size: 12px;">Auto-adjusts spline tube radius, floating spheres, and particle density for 60 FPS mobile performance.</span>
+        </div>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-icon">✓</div>
+        <div>
+          <strong style="color: var(--text-primary);">Mobile Glass Navigation</strong><br>
+          <span style="color: var(--text-secondary); font-size: 12px;">Full-screen glassmorphism drawer menu with touch-friendly accordion sub-menus for Services & Staffing.</span>
+        </div>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-icon">✓</div>
+        <div>
+          <strong style="color: var(--text-primary);">Responsive Card Layouts</strong><br>
+          <span style="color: var(--text-secondary); font-size: 12px;">3D Flip Cards and Tilt Containers dynamically collapse to single-column swipe-ready stacks.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="quick-connect-box">
+      <strong style="font-size: 13px; color: var(--accent-cyan);">📲 Test on Real Mobile Device</strong>
+      <p style="font-size: 12px; color: var(--text-secondary); line-height: 1.4;">
+        Connect your phone to the same Wi-Fi network and open:
+      </p>
+      <div class="url-code" id="lan-url">http://&lt;your-lan-ip&gt;:3000/</div>
+      <p style="font-size: 11px; color: var(--text-secondary);">
+        Or in your browser DevTools press <code style="font-family: var(--font-mono); color: var(--accent-emerald);">Ctrl + Shift + M</code> (Windows) / <code style="font-family: var(--font-mono); color: var(--accent-emerald);">Cmd + Shift + M</code> (Mac).
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+  let currentWidth = 393;
+  let currentHeight = 852;
+  let isLandscape = false;
+  let baseUrl = 'http://localhost:3000';
+  let currentRoute = '/';
+
+  function setDevice(device) {
+    document.querySelectorAll('.toolbar .btn-control').forEach(b => b.classList.remove('active'));
+    const island = document.getElementById('dynamic-island');
+
+    if (device === 'iphone') {
+      currentWidth = 393;
+      currentHeight = 852;
+      document.getElementById('btn-iphone').classList.add('active');
+      if (island) island.style.display = 'flex';
+    } else if (device === 'pixel') {
+      currentWidth = 412;
+      currentHeight = 892;
+      document.getElementById('btn-pixel').classList.add('active');
+      if (island) island.style.display = 'none';
+    } else if (device === 'ipad') {
+      currentWidth = 768;
+      currentHeight = 1024;
+      document.getElementById('btn-ipad').classList.add('active');
+      if (island) island.style.display = 'none';
+    }
+
+    updateFrameSize();
+  }
+
+  function toggleOrientation() {
+    isLandscape = !isLandscape;
+    updateFrameSize();
+  }
+
+  function updateFrameSize() {
+    const frame = document.getElementById('phone-frame');
+    const w = isLandscape ? currentHeight : currentWidth;
+    const h = isLandscape ? currentWidth : currentHeight;
+    frame.style.width = w + 'px';
+    frame.style.height = h + 'px';
+  }
+
+  function setRoute(route) {
+    currentRoute = route;
+    document.querySelectorAll('.route-tab').forEach(tab => tab.classList.remove('active'));
+    event.target.classList.add('active');
+
+    const iframe = document.getElementById('preview-iframe');
+    iframe.src = baseUrl + route;
+  }
+
+  function reloadFrame() {
+    const iframe = document.getElementById('preview-iframe');
+    iframe.src = iframe.src;
+  }
+</script>

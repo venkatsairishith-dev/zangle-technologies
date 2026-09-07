@@ -1,0 +1,18 @@
+export { Scene3DBackground, type Scene3DBackgroundProps } from './Scene3DBackground';
+export { Scene } from './Scene';
+export { CameraController } from './CameraController';
+export { ScrollController } from './ScrollController';
+export { SelectionController } from './SelectionController';
+export { Lighting } from './Lighting';
+export { Effects } from './Effects';
+export { InteractiveObject, useInteractiveRefs } from './InteractiveObject';
+export { Ribbon } from './objects/Ribbon';
+export { Ribbons } from './objects/Ribbons';
+export { GlassSphere } from './objects/GlassSphere';
+export { FloatingSpheres } from './objects/FloatingSpheres';
+export { FloatingShapes } from './objects/FloatingShapes';
+export { ParticleField } from './objects/ParticleField';
+export { HighlightShell } from './objects/HighlightShell';
+export { sceneState, setSelected, subscribeSelection } from './state/sceneState';
+export { usePerformanceTier, detectPerformanceTier } from './hooks/usePerformanceTier';
+export * from './types';
